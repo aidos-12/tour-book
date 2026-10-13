@@ -1,4 +1,6 @@
+from django.conf import settings
 from django.db import models
+
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -21,12 +23,13 @@ class Tour(models.Model):
     def __str__(self):
         return self.title
 
+
 class Review(models.Model):
     tour = models.ForeignKey(Tour, on_delete=models.CASCADE, related_name='reviews')
-    author = models.CharField(max_length=100)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='reviews')
     rating = models.PositiveIntegerField()
+    comment = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.tour} - {self.rating}'
-
+        return f'{self.author} - {self.tour} ({self.rating}/5)'

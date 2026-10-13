@@ -1,10 +1,9 @@
-from django.urls import path
-from .views import TourListCreateAPIView, TourDetailAPIView, CategoryListCreateAPIView, CategoryDetailAPIView, TourByCategoryListAPIView
+from rest_framework.routers import DefaultRouter
+from .views import TourViewSet, CategoryViewSet, ReviewViewSet
 
-urlpatterns = [
-    path('tours/', TourListCreateAPIView.as_view(), name='tour-list'),
-    path('tours/<int:pk>/', TourDetailAPIView.as_view(), name='tour-detail'),
-    path('categories/', CategoryListCreateAPIView.as_view(), name='category-list'),
-    path('categories/<int:pk>/', CategoryDetailAPIView.as_view(), name='category-detail'),
-    path('categories/<int:category_id>/tours/', TourByCategoryListAPIView.as_view(), name='tour-by-category'),
-]
+router = DefaultRouter()
+router.register('tours', TourViewSet, basename='tour')
+router.register('categories', CategoryViewSet, basename='category')
+router.register('reviews', ReviewViewSet, basename='review')
+
+urlpatterns = router.urls
